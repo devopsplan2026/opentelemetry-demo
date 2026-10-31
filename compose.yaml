@@ -528,7 +528,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 20M
+          memory: 40M
     restart: unless-stopped
     ports:
       - "${PRODUCT_CATALOG_PORT}"
@@ -578,7 +578,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 40M
+          memory: 100M
     restart: unless-stopped
     ports:
       - "${QUOTE_PORT}"
@@ -593,7 +593,7 @@ services:
       - OTEL_RESOURCE_ATTRIBUTES=${OTEL_RESOURCE_ATTRIBUTES},service.criticality=low
       - OTEL_SERVICE_NAME=quote
     healthcheck:
-      test: ["CMD", "php", "-r", "fsockopen('localhost', ${QUOTE_PORT}) or die('fail');"]
+      test: ["CMD", "php", "-n", "-r", "fsockopen('127.0.0.1', ${QUOTE_PORT}) or exit(1);"]
       start_period: 10s
       interval: 5s
       timeout: 5s
